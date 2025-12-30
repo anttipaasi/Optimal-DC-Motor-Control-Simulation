@@ -7,3 +7,5 @@ dcm_lqr.m = simulate linear quadratic regulator
 dcm_ocp.m = solve a reference tracking problem (preliminary for MPC)
 
 dcm_mpc.m = simulate model predictive control
+
+This project was carried out on the "Numerical Optimal Control in Science and Engineering" course at Albert-Ludwigs-Universität in Freiburg, Germany.
