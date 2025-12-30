@@ -8,4 +8,6 @@ dcm_ocp.m = solve a reference tracking problem (preliminary for MPC)
 
 dcm_mpc.m = simulate model predictive control
 
+Note that Casadi is needed to run the OCP solver.
+
 This project was carried out on the "Numerical Optimal Control in Science and Engineering" course at Albert-Ludwigs-Universität in Freiburg, Germany.
