@@ -6,8 +6,8 @@
 control_window = 5;   % control horizon lenght
 N_mpc = 2;             % Horizon length (s)
 t_mpc = 0:Ts:N_mpc;    % Horizon timepoints 
-% Add empty points to ref path to ensure succesful MPC loop
-ref_mpc = [ref, zeros(1,control_window)];
+% Add extra points to ref path to ensure succesful MPC loop
+ref_mpc = [ref, ones(1,control_window)*ref(end)];
 % Decision variables
 D = casadi.MX.sym('D',1,control_window); % controls: duty cycles
 
@@ -18,8 +18,7 @@ ref_path_param = casadi.MX.sym('ref_path',1,control_window);
 x0_param = casadi.MX.sym('x0',2,1);  
 % d0_param is needed because max change of D in one timestep 
 % is constrained
-d0_param = casadi.MX.sym('d0',1,1);  
-
+d0_param = casadi.MX.sym('d0',1,1);
 
 % Initilialize state vectors
 x_mpc = casadi.MX.zeros(2,control_window);

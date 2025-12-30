@@ -1,6 +1,7 @@
 % This script implements LQR
 
-Q = [10 0; 0 10] ;               % State weights
+% Weights, apply Bryson's rule
+Q = [10 0; 0 10];                % State weights
 R = [100] ;                      % Control weight
 [K_fb,~,~] = dlqr(Ad,Bd,Q,R) ;   % K_fb = optimal feedback control matrix
 N_lqr = 0.3;                         % Time horizon

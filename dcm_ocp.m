@@ -63,7 +63,7 @@ path_error = ref_path_param(end) - x_opc(1,end);
 J = J + transpose(path_error) *q* path_error;
 
 % Define constraints
-max_dd = 0.1;  % controls max change per timestep
+max_dd = 0.07;  % controls max change per timestep
 g = [];
 lbg = [];                
 ubg = [];
@@ -72,6 +72,10 @@ for k=1:length(t_opc)-1
     g = [g; D(k)];
     lbg = [lbg; 0];
     ubg = [ubg; 1];
+    % Terminal state must be reached
+    g = [g; x_opc(1,end)-ref_path_param(end)];
+    lbg = [lbg;0];
+    ubg = [ubg;0];
     % -max_dd <= d(k+1) - d(k) <= max_dd
     if(k>1)
         g = [g; D(k) - D(k-1)];
