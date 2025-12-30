@@ -1,4 +1,4 @@
-The point is to follow a reference signal while preventing aggressive control.
+The point is to follow a reference signal while preventing aggressive control. Maximum change of control per timestep is restricted to be max_dd = 0.07, while control signal d is between [0,1].
 
 OptimalDCMotorControl.mlx = run all scripts below in order
 
