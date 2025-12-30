@@ -10,13 +10,13 @@ t_opc = 0:Ts:N_opc;      % Time points
 %ref = [zeros(1,50), ones(1,151)*7]; 
 
 % *** REF #2: multiple steps ***
-ref = [ones(1,10),ones(1,90)*12,ones(1,50)*5,ones(1,51)*14];
+%ref = [ones(1,10),ones(1,90)*12,ones(1,50)*5,ones(1,51)*14];
 
 % *** REF #3: mixed step and sinusoid ***
 %ref = [ones(1,50)*5,0.5*sin(0:49)+3,ones(1,51)*13,0.3*cos(0:49)+4];      
 
 % *** REF #4: mixed step and linear growth/decay ***
-%ref = [ones(1,25)*3, ones(1,25)*6, 0.5*(0:24)+3, -0.5*(0:24)+15, zeros(1,25),ones(1,26)*2, 0.5*(0:24)+2,ones(1,25)*12];
+ref = [ones(1,25)*3, ones(1,25)*6, 0.5*(0:14)+3,ones(1,14)*10, -0.5*(0:20)+10, zeros(1,25),ones(1,26)*2, 0.5*(0:24)+2,ones(1,25)*16];
 
 % *** REF #5: mixed step, sinusoid and exponentials
 %ref = [ones(1,25)*3, ones(1,25)*13, 0.2*sin(0:24)+0.3, exp(0:9)*0.001,exp(-(-9:0))*0.001, ones(1,25)*16, ones(1,25)*2, ones(1,15)*12,exp(0:9)*0.001, 0.15*sin(0:24)+0.45, exp(-(-9:-4))*0.001];
@@ -45,8 +45,9 @@ for i=1:length(t_opc)-1
 end
 
 % weigths
-q = [100] ; % path error weight 
-r = [10]  ; % control weight
+% Apply Bryson's rule 
+q = [1000] ; % path error weight 
+r = [100]  ; % control weight
 
 % Calculate objective
 J = 0.0 ; 
@@ -62,7 +63,7 @@ path_error = ref_path_param(end) - x_opc(1,end);
 J = J + transpose(path_error) *q* path_error;
 
 % Define constraints
-max_dd = 0.05;  % controls max change per timestep
+max_dd = 0.1;  % controls max change per timestep
 g = [];
 lbg = [];                
 ubg = [];

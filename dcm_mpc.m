@@ -1,5 +1,7 @@
 % *** This script implements MPC ***
 
+% path, objective function weights and max_dd are defined in dcm_ocp.m
+
 % Formulate problem and solve for moving time frame
 control_window = 5;   % control horizon lenght
 N_mpc = 2;             % Horizon length (s)
@@ -26,9 +28,7 @@ for i=1:control_window-1
     x_mpc(:,i+1) = Ad*x_mpc(:,i) + Bd*Vi*D(i);   
 end
 
-% weigths
-q = [1000] ; % path error weight 
-r = [10]  ; % control weight
+% weigths q and r are definde in dcm_ocp.m
 
 % Calculate objective
 J = 0.0 ; 
@@ -44,7 +44,7 @@ path_error = ref_path_param(end) - x_mpc(1,end);
 J = J + transpose(path_error) *q* path_error;
 
 % Define constraints
-max_dd = 0.05;  % controls max change per timestep
+% max_dd is defined in dcm_ocp (controls max change per timestep)
 g = [D(1)-d0_param]; 
 lbg = [-max_dd];                
 ubg = [max_dd];
