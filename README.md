@@ -1,3 +1,5 @@
+The point is to follow a reference signal while preventing aggressive control.
+
 OptimalDCMotorControl.mlx = run all scripts below in order
 
 dcm_sys.m = define system model
