@@ -25,7 +25,7 @@ ref = [ones(1,25)*3, ones(1,25)*6, 0.5*(0:14)+3,ones(1,14)*10, -0.5*(0:20)+10, z
 % Plot reference signal
 figure;
 plot(t_opc,ref)
-title('Shaft Speed Reference')
+title('OCP Shaft Speed Reference')
 xlabel('t')
 ylabel('\omega_ref')
 

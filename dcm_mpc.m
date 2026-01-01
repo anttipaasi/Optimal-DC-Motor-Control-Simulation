@@ -129,3 +129,4 @@ if abs(max(ddSol_mpc) - max_dd) < 5e-16
 else
     disp('max_dd is not met')
 end
+
