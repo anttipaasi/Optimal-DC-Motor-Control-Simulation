@@ -28,6 +28,8 @@ plot(t_opc,ref)
 title('OCP Shaft Speed Reference')
 xlabel('t')
 ylabel('\omega_ref')
+ylim([-1,18]);
+xlim([0,2.1]);
 
 % *** Optimal Control Problem ***
 % Decision variables
@@ -115,6 +117,8 @@ plot(t_opc(1:end-1),dSol_opc)
 title('OCP Controls')
 xlabel('t')
 ylabel('D')
+ylim([-0.1,1.1]);
+xlim([0,2.1]);
 
 % Plot reference path and actual path
 figure;
@@ -124,5 +128,7 @@ ylabel('\omega')
 xlabel('t')
 plot(t_opc,ref,'red');
 plot(t_opc,xSol_opc(1,:),'green');
+ylim([-1,18]);
+xlim([0,2.1]);
 legend('Ref.','Real');
 hold off;

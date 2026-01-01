@@ -96,13 +96,16 @@ plot(t_mpc,ref)
 title('MPC Shaft Speed Reference')
 xlabel('t')
 ylabel('\omega_ref')
-
+ylim([-1,18]);
+xlim([0,2.1]);
 
 % Plot controls
 figure;
 plot(t_mpc(1:end),dSol_mpc)
 xlabel('t')
 ylabel('D')
+ylim([-0.1,1.1]);
+xlim([0,2.1]);
 title('MPC Controls')
 
 % Plot reference path and actual path
@@ -111,6 +114,8 @@ hold on;
 title('MPC Ref. and Real Path (with noise)')
 plot(t_mpc,ref,'red');
 plot(t_mpc, xSol_mpc(1,:),'green');
+ylim([-1,18]);
+xlim([0,2.1]);
 legend('Ref','Real');
 hold off;
 
