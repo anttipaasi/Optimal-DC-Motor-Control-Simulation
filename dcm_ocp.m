@@ -126,4 +126,3 @@ plot(t_opc,ref,'red');
 plot(t_opc,xSol_opc(1,:),'green');
 legend('Ref.','Real');
 hold off;
-

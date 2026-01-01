@@ -90,6 +90,14 @@ for k=1:length(t_mpc)-1
 end
 toc;
 
+% Plot reference signal
+figure;
+plot(t_mpc,ref)
+title('MPC Shaft Speed Reference')
+xlabel('t')
+ylabel('\omega_ref')
+
+
 % Plot controls
 figure;
 plot(t_mpc(1:end),dSol_mpc)
@@ -106,3 +114,18 @@ plot(t_mpc, xSol_mpc(1,:),'green');
 legend('Ref','Real');
 hold off;
 
+
+% Check control change rate and verify that max_dd is met
+ddSol_mpc = diff(dSol_mpc);
+figure;
+plot(t_mpc(1:end-1),ddSol_mpc);
+title('Control Rate of Change')
+xlabel('t')
+ylabel('dd/dt')
+disp('Controls, Max Rate of Change:')
+disp(max(ddSol_mpc))
+if abs(max(ddSol_mpc) - max_dd) < 5e-16
+    disp('max_dd is met')
+else
+    disp('max_dd is not met')
+end
