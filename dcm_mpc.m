@@ -20,6 +20,7 @@ x0_param = casadi.MX.sym('x0',2,1);
 % is constrained
 d0_param = casadi.MX.sym('d0',1,1);
 
+
 % Initilialize state vectors
 x_mpc = casadi.MX.zeros(2,control_window);
 x_mpc(:,1) = x0_param;                  
@@ -61,6 +62,7 @@ for k=1:control_window
 
 end
 
+
 x = [0;0];       % Initial state
 d = 0;           % Initial control
 % Initialize solution matrices
@@ -77,7 +79,7 @@ solver = casadi.qpsol('solver','qpoases',ocp);
 % Moving horizon loop
 tic;
 for k=1:length(t_mpc)-1
-    % Update window
+    % Update window 
     window = ref_mpc(k:k+control_window-1);
     % Solve the optimal control problem for current time frame
     solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);

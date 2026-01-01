@@ -58,7 +58,7 @@ for i=1:length(t_opc)-1
     path_error = ref_path_param(i) - x_opc(1,i);    
     J = J + transpose(path_error) * q * path_error ;  
     % Control cost
-    J = J + transpose(D(i)) * r * D(i) ;
+    J = J + transpose(D(i)) * r * D(i);
 end
 % Terminal cost
 path_error = ref_path_param(end) - x_opc(1,end);
@@ -86,6 +86,7 @@ for k=1:length(t_opc)-1
     end
 
 end
+
 
 % Optimal Control Problem formulation
 ocp = struct();

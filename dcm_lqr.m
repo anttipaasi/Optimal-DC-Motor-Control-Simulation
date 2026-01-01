@@ -7,7 +7,7 @@ R = [100] ;                      % Control weight
 N_lqr = 0.3;                         % Time horizon
 t_lqr = 0:Ts:N_lqr;                      % Time points  
 
-x0_lqr = [3 0 8 ; 2 0 2];                     % Initial values
+x0_lqr = [3 0 8 ; 2 0 2];                % Initial values
 omegaGoal = [1, 10, 100];                % Goal motor shaft speeds to be simulated 
 iGoal = b*omegaGoal/K;                   % Goal state motor currents 
 xGoal = [omegaGoal; iGoal];              % Goal state matrix
