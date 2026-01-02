@@ -85,7 +85,7 @@ for k=1:length(t_mpc)-1
     solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);
     % Apply the first control => get new x and add noise
     d = full(solution.x(1));
-    x = (Ad*x + Bd*Vi*d) + randi([-1000,1000])*0.00005*ones(2,1); 
+    x = (Ad*x + Bd*Vi*d) + randi([-1000,1000])*10e-5*ones(2,1); 
     % Add to dSol and xSol for plotting
     dSol_mpc(k) = d;
     xSol_mpc(:,k+1) = x;

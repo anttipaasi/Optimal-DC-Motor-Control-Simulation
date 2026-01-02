@@ -105,7 +105,7 @@ solution = solver('p',[x_init,ref], 'lbg',lbg, 'ubg',ubg);
 % Solution: vector of optimal duty cycles
 dSol_opc = full(solution.x);
 
-% Calculate states based on dSol and x_init
+% Calculate states based on dSol and x_init 
 xSol_opc = zeros(2,length(t_opc));
 xSol_opc(:,1) = transpose(x_init);
 for i=1:length(dSol_opc)
@@ -133,3 +133,5 @@ ylim([-1,18]);
 xlim([0,2.1]);
 legend('Ref.','Real');
 hold off;
+
+
