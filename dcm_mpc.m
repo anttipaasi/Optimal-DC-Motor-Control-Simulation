@@ -146,7 +146,7 @@ hold off;
 ddSol_mpc = diff(dSol_mpc);
 figure;
 plot(t_mpc(1:end-1),ddSol_mpc);
-title('Control Rate of Change')
+title('MPC Control Rate of Change')
 xlabel('t')
 ylabel('dd/dt')
 disp('Controls, Max Rate of Change:')
