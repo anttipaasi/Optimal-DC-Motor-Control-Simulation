@@ -1,4 +1,6 @@
-% *** This script implements MPC ***
+% *** This script implements MPC with a Kalman filter ***
+% Significant noise is added to demonstrate how feedback control
+% and Kalman filtering enhances performance
 
 % path, objective function weights and max_dd are defined in dcm_ocp.m
 
@@ -63,7 +65,8 @@ for k=1:control_window
 end
 
 
-x = [0;0];       % Initial state
+% MPC loop initializations
+x = [0;0];       % Initial state based on system model
 d = 0;           % Initial control
 % Initialize solution matrices
 dSol_mpc = zeros(1,length(t_mpc));
@@ -75,7 +78,13 @@ ocp.x = [D] ;
 ocp.p = [reshape(x0_param,[1,2]), d0_param, ref_path_param] ;
 ocp.g = transpose(g) ;
 ocp.f = J ;
+% Initialize solver
 solver = casadi.qpsol('solver','qpoases',ocp);
+% Kalman filter initial values
+Pk = 10*eye(2);          % State covariance
+Qk = diag([0.1, 0.1]);   % Process noise covariance
+Rk = 10;                 % Measurement noise covariance
+
 % Moving horizon loop
 tic;
 for k=1:length(t_mpc)-1
@@ -83,12 +92,23 @@ for k=1:length(t_mpc)-1
     window = ref_mpc(k:k+control_window-1);
     % Solve the optimal control problem for current time frame
     solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);
-    % Apply the first control => get new x and add noise
-    d = full(solution.x(1));
-    x = (Ad*x + Bd*Vi*d) + randi([-1000,1000])*10e-5*ones(2,1); 
-    % Add to dSol and xSol for plotting
+    d = full(solution.x(1)); % New optimal control
+
+    % Apply Kalman filter
+    xp = (Ad*x + Bd*Vi*d);       % Prediction based on system model
+    w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
+    v = randi([-1000,1000])*1e-3;           % Measurement noise
+    xr = xp + w ;                     % Real system state
+    y = Cd*xr + v ;                   % Real measurement
+    Pk = Ad*Pk*Ad' + Qk;              % Update Pk  
+    Kk = Pk*Cd'/(Cd*Pk*Cd' + Rk);     % Kalman gain
+    x = xp + Kk*(y-Cd*xp);            % State estimate
+    Pk = Pk - Kk*Cd*Pk;               % Update Pk
+    
+    % Add d to dSol and x to xSol for plotting 
     dSol_mpc(k) = d;
     xSol_mpc(:,k+1) = x;
+
 end
 toc;
 

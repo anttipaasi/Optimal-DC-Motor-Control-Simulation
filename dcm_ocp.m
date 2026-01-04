@@ -1,4 +1,6 @@
 % This script implements an OCP and solves it
+% Add significant noise to demonstrate how open loop control
+% can perform poorly
 
 N_opc = 2;               % Time horizon
 t_opc = 0:Ts:N_opc;      % Time points
@@ -102,6 +104,8 @@ x_init = [0,0];
 solver = casadi.qpsol('solver','qpoases',ocp);
 solution = solver('p',[x_init,ref], 'lbg',lbg, 'ubg',ubg);
 
+
+
 % Solution: vector of optimal duty cycles
 dSol_opc = full(solution.x);
 
@@ -109,7 +113,8 @@ dSol_opc = full(solution.x);
 xSol_opc = zeros(2,length(t_opc));
 xSol_opc(:,1) = transpose(x_init);
 for i=1:length(dSol_opc)
-    xSol_opc(:,i+1) = Ad*xSol_opc(:,i) + Bd*Vi*dSol_opc(i);
+    w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
+    xSol_opc(:,i+1) = Ad*xSol_opc(:,i) + Bd*Vi*dSol_opc(i) + w;
 end
 
 % Plot controls
@@ -124,7 +129,7 @@ xlim([0,2.1]);
 % Plot reference path and actual path
 figure;
 hold on;
-title('OPC Ref. Path and Real Path')
+title('OPC Ref. Path and Real Path (with noise)')
 ylabel('\omega')
 xlabel('t')
 plot(t_opc,ref,'red');
