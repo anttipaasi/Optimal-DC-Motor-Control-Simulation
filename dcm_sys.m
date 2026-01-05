@@ -21,7 +21,6 @@ L = double(L(1))
 R = double(R(1))
 wn = double(wn(1))
 
-
 % Continuous state-space model
 Vi = 24;    % Converter input voltage 
 A = [-b/J K/J; -K/L -R/L] ;
@@ -36,8 +35,7 @@ title('Continuous Step Response')
 ylabel('\omega')
 
 % Discrete state-space model
-Ts = 0.01;        
-% sample time
+Ts = 0.01;  % sample time
 I = eye(size(A));
 Ad = I+A*Ts;      
 Bd = B*Ts;        

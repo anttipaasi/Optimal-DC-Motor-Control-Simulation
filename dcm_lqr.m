@@ -1,11 +1,11 @@
 % This script implements LQR
 
-% Weights, apply Bryson's rule
+% Weights. Apply Bryson's rule
 Q = [10 0; 0 10];                % State weights
 R = [100] ;                      % Control weight
 [K_fb,~,~] = dlqr(Ad,Bd,Q,R) ;   % K_fb = optimal feedback control matrix
-N_lqr = 0.3;                         % Time horizon
-t_lqr = 0:Ts:N_lqr;                      % Time points  
+N_lqr = 0.3;                     % Time horizon
+t_lqr = 0:Ts:N_lqr;              % Time points  
 
 x0_lqr = [3 0 8 ; 2 0 2];                % Initial values
 omegaGoal = [1, 10, 100];                % Goal motor shaft speeds to be simulated 
@@ -26,7 +26,7 @@ for j=1:length(omegaGoal)
         xSol_lqr((2*j-1):(2*j), k) = x_lqr; 
         xError = x_lqr - xGoal(:,j);      
         u = uGoal(j) - K_fb*(xError);  
-        u = min(max(0,u),1);          % Clip the control if it's not feasible
+        u = min(max(0,u),1);   % Clip unfeasible controls
         uSol_lqr(j,k) = u;                   
         objective(j) = objective(j) + transpose(xError)*Q*xError + transpose(u)*R*u;
         x_lqr = (Ad*x_lqr + Bd*Vi*u) + randi([-1000,1000])*0.00005*ones(2,1);  % update x and add noise

@@ -2,10 +2,10 @@
 % Significant noise is added to demonstrate how feedback control
 % and Kalman filtering enhances performance
 
-% path, objective function weights and max_dd are defined in dcm_ocp.m
+% Path vector, objective function weights and max_dd are defined 
+% in dcm_ocp.m
 
-% Formulate problem and solve for moving time frame
-control_window = 5;   % control horizon lenght
+control_window = 5;    % control horizon lenght
 N_mpc = 2;             % Horizon length (s)
 t_mpc = 0:Ts:N_mpc;    % Horizon timepoints 
 % Add extra points to ref path to ensure succesful MPC loop

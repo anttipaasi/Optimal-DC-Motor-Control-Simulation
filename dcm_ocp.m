@@ -1,6 +1,5 @@
 % This script implements an OCP and solves it
-% Add significant noise to demonstrate how open loop control
-% can perform poorly
+% Add significant noise to demonstrate open-loop restrictions
 
 N_opc = 2;               % Time horizon
 t_opc = 0:Ts:N_opc;      % Time points
@@ -48,8 +47,7 @@ for i=1:length(t_opc)-1
     x_opc(:,i+1) = Ad*x_opc(:,i) + Bd*Vi*D(i);   
 end
 
-% weigths
-% Apply Bryson's rule 
+% Weigths. Apply Bryson's rule 
 q = [1000] ; % path error weight 
 r = [100]  ; % control weight
 
