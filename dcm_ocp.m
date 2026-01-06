@@ -128,7 +128,7 @@ xlim([0,2.1]);
 % Plot reference path and actual path
 figure;
 hold on;
-title('OPC Ref. Path and Real Path (with noise)')
+title('OCP Ref. Path and "Real" Path (with noise)')
 ylabel('\omega')
 xlabel('t')
 plot(t_opc,ref,'red');
