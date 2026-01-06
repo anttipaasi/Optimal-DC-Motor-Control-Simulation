@@ -20,6 +20,7 @@ t_opc = 0:Ts:N_opc;      % Time points
 ref = [ones(1,25)*3, ones(1,25)*6, 0.5*(0:14)+3,ones(1,14)*10, -0.5*(0:20)+10, zeros(1,25),ones(1,26)*2, 0.5*(0:24)+2,ones(1,25)*16];
 
 % *** REF #5: mixed step, sinusoid and exponentials
+% This is a very difficult signal to follow, especially with restricted controls. 
 %ref = [ones(1,25)*3, ones(1,25)*13, 0.2*sin(0:24)+0.3, exp(0:9)*0.001,exp(-(-9:0))*0.001, ones(1,25)*16, ones(1,25)*2, ones(1,15)*12,exp(0:9)*0.001, 0.15*sin(0:24)+0.45, exp(-(-9:-4))*0.001];
 
 
