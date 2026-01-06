@@ -132,9 +132,9 @@ ylabel('\omega')
 xlabel('t')
 plot(t_opc,ref,'red');
 plot(t_opc,xSol_opc(1,:),'green');
-ylim([-1,18]);
+ylim([-5,22]);
 xlim([0,2.1]);
-legend('Ref.','Real');
+legend('Ref.','"Real"');
 hold off;
 
 
