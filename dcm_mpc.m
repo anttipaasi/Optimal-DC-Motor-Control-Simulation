@@ -34,16 +34,14 @@ end
 
 % Calculate objective
 J = 0.0 ; 
-for i=1:control_window-1
+for i=1:control_window
     % Reference speed path error cost
     path_error = ref_path_param(i) - x_mpc(1,i);    
     J = J + transpose(path_error) * q * path_error ;  
     % Control cost
     J = J + transpose(D(i)) * r * D(i) ;
 end
-% Terminal cost
-path_error = ref_path_param(end) - x_mpc(1,end);
-J = J + transpose(path_error) *q* path_error;
+
 
 % Define constraints
 % max_dd is defined in dcm_ocp (controls max change per timestep)
@@ -134,6 +132,8 @@ title('MPC Controls')
 figure;
 hold on;
 title('MPC Ref. and Real Path (with noise)')
+ylabel('\omega')
+xlabel('t')
 plot(t_mpc,ref,'red');
 plot(t_mpc, xSol_mpc(1,:),'green');
 ylim([-1,18]);
