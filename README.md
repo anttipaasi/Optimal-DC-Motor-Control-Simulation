@@ -2,6 +2,8 @@ The point is to follow a reference signal while preventing aggressive control. M
 
 Instructions about the files below. Note that Control System Toolbox and CasADi are needed to run the scripts.
 
+MotorParameterDesign.mlx = Just shows how some motor parameters were calculated
+
 OptimalDCMotorControl.mlx = run all scripts below in order
 
 dcm_sys.m = define system model
