@@ -75,10 +75,6 @@ for k=1:length(t_opc)-1
     g = [g; D(k)];
     lbg = [lbg; 0];
     ubg = [ubg; 1];
-    % Terminal state must be reached
-    g = [g; x_opc(1,end)-ref_path_param(end)];
-    lbg = [lbg;0];
-    ubg = [ubg;0];
     % -max_dd <= d(k+1) - d(k) <= max_dd
     if(k>1)
         g = [g; D(k) - D(k-1)];
@@ -87,6 +83,11 @@ for k=1:length(t_opc)-1
     end
 
 end
+% Terminal state must be reached
+g = [g; x_opc(1,end)-ref_path_param(end)];
+lbg = [lbg;0];
+ubg = [ubg;0];
+
 
 
 % Optimal Control Problem formulation

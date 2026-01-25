@@ -92,7 +92,7 @@ for k=1:length(t_mpc)-1
     solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);
     d = full(solution.x(1)); % New optimal control
 
-    % Apply Kalman filter
+    %{ Apply Kalman filter
     xp = (Ad*x + Bd*Vi*d);       % Prediction based on system model
     w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
     v = randi([-1000,1000])*1e-3;           % Measurement noise
@@ -102,7 +102,7 @@ for k=1:length(t_mpc)-1
     Kk = Pk*Cd'/(Cd*Pk*Cd' + Rk);     % Kalman gain
     x = xp + Kk*(y-Cd*xp);            % State estimate
     Pk = Pk - Kk*Cd*Pk;               % Update Pk
-    
+
     % Add d to dSol and x to xSol for plotting 
     dSol_mpc(k) = d;
     xSol_mpc(:,k+1) = x;
@@ -131,7 +131,7 @@ title('MPC Controls')
 % Plot reference path and actual path
 figure;
 hold on;
-title('MPC Ref. and Real Path (with noise)')
+title('MPC Ref. and Real Path (with noise) + Kalman filter')
 ylabel('\omega')
 xlabel('t')
 plot(t_mpc,ref,'red');
