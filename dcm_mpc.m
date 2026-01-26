@@ -41,6 +41,9 @@ for i=1:control_window
     % Control cost
     J = J + transpose(D(i)) * r * D(i) ;
 end
+% Terminal cost
+path_error = ref_path_param(end) - x_mpc(1,end);
+J = J + transpose(path_error) *q* path_error;
 
 
 % Define constraints
@@ -92,12 +95,12 @@ for k=1:length(t_mpc)-1
     solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);
     d = full(solution.x(1)); % New optimal control
 
-    %{ Apply Kalman filter
-    xp = (Ad*x + Bd*Vi*d);       % Prediction based on system model
+    % Apply Kalman filter
+    xp = (Ad*x + Bd*Vi*d);            % Prediction based on system model
     w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
     v = randi([-1000,1000])*1e-3;           % Measurement noise
-    xr = xp + w ;                     % Real system state
-    y = Cd*xr + v ;                   % Real measurement
+    xr = xp + w ;                     % Noisy system state
+    y = Cd*xr + v ;                   % Noisy measurement
     Pk = Ad*Pk*Ad' + Qk;              % Update Pk  
     Kk = Pk*Cd'/(Cd*Pk*Cd' + Rk);     % Kalman gain
     x = xp + Kk*(y-Cd*xp);            % State estimate
