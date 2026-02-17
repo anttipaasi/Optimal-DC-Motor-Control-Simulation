@@ -8,7 +8,7 @@ N_lqr = 0.3;                     % Time horizon
 t_lqr = 0:Ts:N_lqr;              % Time points  
 
 x0_lqr = [3 0 8 ; 2 0 2];                % Initial values
-omegaGoal = [1, 10, 100];                % Goal motor shaft speeds to be simulated 
+omegaGoal = [1, 10, 22];                % Goal motor shaft speeds to be simulated 
 iGoal = b*omegaGoal/K;                   % Goal state motor currents 
 xGoal = [omegaGoal; iGoal];              % Goal state matrix
 uGoal = 1/Vi*(pinv(Bd)*(I-Ad)*xGoal);    % Goal state controls
@@ -37,26 +37,36 @@ end
 % Plot LQR performance for different initial values and goal speeds
 figure; 
 hold on;
-title('LQR Performance for different x_0 and \omega_g (with noise)')
+title('LQR Performance for different \omega_0 and \omega_g (with noise)')
+fontsize(16,"points")
 ylabel('\omega')
 xlabel('t')
+ylim([-0.5,25])
 legendStrings = strings(length(omegaGoal),1);
 for i=1:length(omegaGoal)
-    plot(t_lqr,xSol_lqr(2*i-1,:))
+    plot(t_lqr,xSol_lqr(2*i-1,:),LineWidth=2)
     legendStrings(i) = sprintf('\\omega_g = %g', omegaGoal(i));
 end
+
+for i=1:length(omegaGoal)
+    plot(t_lqr,omegaGoal(i)*ones(size(t_lqr)),LineStyle="--")
+end
+
 legend(legendStrings)
+hold off
 
 
 % Plot controls
 figure;
 hold on
 title('LQR Controls')
+fontsize(16,"points")
+ylim([-0.1,1.05])
 ylabel('D')
 xlabel('t')
 legendStrings = strings(length(omegaGoal),1);
 for i=1:length(omegaGoal)
-    plot(t_lqr,uSol_lqr(i,:))
+    plot(t_lqr,uSol_lqr(i,:), LineWidth=2)
     legendStrings(i) = sprintf('\\omega_g = %g', omegaGoal(i));
 end
 legend(legendStrings)

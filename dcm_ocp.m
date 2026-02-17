@@ -114,7 +114,7 @@ xSol_opc = zeros(2,length(t_opc));
 xSol_opc(:,1) = transpose(x_init);
 for i=1:length(dSol_opc)
     w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
-    xSol_opc(:,i+1) = Ad*xSol_opc(:,i) + Bd*Vi*dSol_opc(i) + w;
+    xSol_opc(:,i+1) = Ad*xSol_opc(:,i) + Bd*Vi*dSol_opc(i); % +w
 end
 
 % Plot controls
@@ -129,14 +129,15 @@ xlim([0,2.1]);
 % Plot reference path and actual path
 figure;
 hold on;
-title('OCP Ref. Path and "Real" Path (with noise)')
+title('OCP Ref. Path and Real Path')
+fontsize(16,"points")
 ylabel('\omega')
 xlabel('t')
-plot(t_opc,ref,'red');
-plot(t_opc,xSol_opc(1,:),'green');
+plot(t_opc,ref,'red',LineWidth=2);
+plot(t_opc,xSol_opc(1,:),'green',LineWidth=2);
 ylim([-5,22]);
 xlim([0,2.1]);
-legend('Ref.','"Real"');
+legend('Ref.','Real');
 hold off;
 
 

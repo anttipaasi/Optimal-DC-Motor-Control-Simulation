@@ -67,7 +67,7 @@ end
 
 
 % MPC loop initializations
-x = [0;0];       % Initial state based on system model
+x_hat = [0;0];       % Initial state based on system model
 d = 0;           % Initial control
 % Initialize solution matrices
 dSol_mpc = zeros(1,length(t_mpc));
@@ -92,23 +92,23 @@ for k=1:length(t_mpc)-1
     % Update window 
     window = ref_mpc(k:k+control_window-1);
     % Solve the optimal control problem for current time frame
-    solution = solver('p',[transpose(x),d,window], 'lbg',lbg, 'ubg',ubg);
+    solution = solver('p',[transpose(x_hat),d,window], 'lbg',lbg, 'ubg',ubg);
     d = full(solution.x(1)); % New optimal control
 
     % Apply Kalman filter
-    xp = (Ad*x + Bd*Vi*d);            % Prediction based on system model
+    xp = (Ad*x_hat + Bd*Vi*d);            % Prediction based on system model
     w = randi([-1000,1000])*1e-3*ones(2,1); % Process noise
     v = randi([-1000,1000])*1e-3;           % Measurement noise
-    xr = xp + w ;                     % Noisy system state
-    y = Cd*xr + v ;                   % Noisy measurement
+    xm = xp + w ;                     % Noisy system state
+    ym = Cd*xm + v ;                   % Noisy measurement
     Pk = Ad*Pk*Ad' + Qk;              % Update Pk  
     Kk = Pk*Cd'/(Cd*Pk*Cd' + Rk);     % Kalman gain
-    x = xp + Kk*(y-Cd*xp);            % State estimate
+    x_hat = xp + Kk*(ym-Cd*xp);            % State estimate
     Pk = Pk - Kk*Cd*Pk;               % Update Pk
-
+    
     % Add d to dSol and x to xSol for plotting 
     dSol_mpc(k) = d;
-    xSol_mpc(:,k+1) = x;
+    xSol_mpc(:,k+1) = x_hat;
 
 end
 toc;
@@ -134,12 +134,13 @@ title('MPC Controls')
 % Plot reference path and actual path
 figure;
 hold on;
-title('MPC Ref. and Real Path (with noise) + Kalman filter')
+title('MPC Ref. and Real Path (with noise), with Kalman filter')
+fontsize(16,"points")
 ylabel('\omega')
 xlabel('t')
-plot(t_mpc,ref,'red');
-plot(t_mpc, xSol_mpc(1,:),'green');
-ylim([-1,18]);
+plot(t_mpc,ref,'red',LineWidth=2);
+plot(t_mpc, xSol_mpc(1,:),'green',LineWidth=2);
+ylim([-3,20]);
 xlim([0,2.1]);
 legend('Ref','Real');
 hold off;

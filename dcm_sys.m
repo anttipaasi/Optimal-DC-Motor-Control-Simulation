@@ -44,15 +44,22 @@ sysd = ss(Ad,Bd,Cd,0,Ts);
 
 % Plot discrete step response
 figure;
+hold on
 step(sysd)
 title('Discrete Step Response')
 ylabel('\omega')
+hold off
 
 
 % Simulate the discrete system for different controls
 N = 5;      % Time horizon
 t = 0:Ts:N; % All time points
 D_steps = [zeros(1,100), 0.9*ones(1,100), 0.6*ones(1,100), zeros(1,100),0.97*ones(1,101)];
+
+N = 1;
+t = 0:Ts:N;
+D_steps = ones(length(t)); % Step input at time 0
+
 x = [0.0;0.0] ;             % Initial value 
 xSol = zeros(length(t),2);  % Solution matrix
 for k=1:length(t)
@@ -62,15 +69,17 @@ end
 
 % Plot controls
 figure;
-plot(t,D_steps, 'blue')
-title('Controls')
+plot(t,D_steps, 'blue',LineWidth=2)
+title('Step Input at t=0')
+fontsize(16,'points')
 xlabel('t')
 ylabel('D')
 
 % Plot system response
 figure;
-plot(t,xSol(:,1),'green')
-title('System Response')
+plot(t,xSol(:,1),'green',LineWidth=2)
+title('Step Response')
+fontsize(16,"points")
 xlabel('t')
 ylabel('\omega')
 
